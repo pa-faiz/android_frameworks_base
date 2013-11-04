@@ -260,11 +260,11 @@ java_library {
         "android.system.suspend.control.internal-java",
         "devicepolicyprotosnano",
         "ImmutabilityAnnotation",
-
         "com.android.sysprop.init",
         "com.android.sysprop.localization",
         "PlatformProperties",
         "vendor.lineage.health-V1-java",
+        "SurfaceFlingerProperties",
     ],
     sdk_version: "core_platform",
     installable: false,
