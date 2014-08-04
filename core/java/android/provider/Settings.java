@@ -5208,6 +5208,12 @@ public final class Settings {
         public static final String STATUS_BAR_SHOW_BATTERY_PERCENT = "status_bar_battery_percent";
 
         /**
+         * Whether to scramble a pin unlock layout
+         * @hide
+         */
+        public static final String LOCKSCREEN_PIN_SCRAMBLE_LAYOUT = "lockscreen_scramble_pin_layout";
+
+        /**
          * Control whether to enable adaptive sleep mode.
          * @deprecated Use {@link android.provider.Settings.Secure#ADAPTIVE_SLEEP} instead.
          * @hide
