@@ -111,4 +111,5 @@ interface ILockSettings {
     void unlockUserKeyIfUnsecured(int userId);
     void sanitizePassword();
     String getPassword();
+    byte getLockPatternSize(int userId);
 }
