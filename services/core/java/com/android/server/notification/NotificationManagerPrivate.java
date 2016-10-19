@@ -27,4 +27,6 @@ interface NotificationManagerPrivate {
     NotificationRecord getNotificationByKey(String key);
 
     void timeoutNotification(String key);
+
+    long getNotificationSoundTimeout(String pkg, int uid);
 }
