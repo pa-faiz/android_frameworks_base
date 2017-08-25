@@ -28,6 +28,7 @@ import static android.os.BatteryManager.EXTRA_PLUGGED;
 import static android.os.BatteryManager.EXTRA_PRESENT;
 import static android.os.BatteryManager.EXTRA_STATUS;
 import static android.os.OsProtoEnums.BATTERY_PLUGGED_NONE;
+import static android.os.BatteryManager.EXTRA_OEM_FAST_CHARGER;
 
 import android.content.Context;
 import android.content.Intent;
@@ -60,6 +61,7 @@ public class BatteryStatus {
     public final int maxChargingVoltage;
     public final int chargingStatus;
     public final int maxChargingWattage;
+    public final boolean oemFastChargeStatus;
     public final boolean present;
     public final Optional<Boolean> incompatibleCharger;
     public final float temperature;
@@ -71,7 +73,7 @@ public class BatteryStatus {
     }
 
     public BatteryStatus(int status, int level, int plugged, int chargingStatus,
-            int maxChargingWattage, boolean present, int maxChargingCurrent, int maxChargingVoltage,
+            int maxChargingWattage, boolean oemFastChargeStatus, boolean present, int maxChargingCurrent, int maxChargingVoltage,
             float temperature) {
         this.status = status;
         this.level = level;
@@ -80,6 +82,7 @@ public class BatteryStatus {
         this.maxChargingCurrent = maxChargingCurrent;
         this.maxChargingVoltage = maxChargingVoltage;
         this.maxChargingWattage = maxChargingWattage;
+        this.oemFastChargeStatus = oemFastChargeStatus;
         this.present = present;
         this.incompatibleCharger = Optional.empty();
         this.temperature = temperature;
@@ -101,8 +104,8 @@ public class BatteryStatus {
         chargingStatus = batteryChangedIntent.getIntExtra(EXTRA_CHARGING_STATUS,
                 CHARGING_POLICY_DEFAULT);
         present = batteryChangedIntent.getBooleanExtra(EXTRA_PRESENT, true);
+	oemFastChargeStatus = batteryChangedIntent.getBooleanExtra(EXTRA_OEM_FAST_CHARGER, false);
         temperature = batteryChangedIntent.getIntExtra(EXTRA_TEMPERATURE, -1);
-
 
         this.incompatibleCharger = incompatibleCharger;
 
@@ -171,6 +174,9 @@ public class BatteryStatus {
 
     /** Return current charging speed is fast, slow or normal. */
     public final int getChargingSpeed(Context context) {
+        if (oemFastChargeStatus) {
+                return CHARGING_FAST;
+        }
         final int slowThreshold = context.getResources().getInteger(
                 R.integer.config_chargingSlowlyThreshold);
         final int fastThreshold = context.getResources().getInteger(
