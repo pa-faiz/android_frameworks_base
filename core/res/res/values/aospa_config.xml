@@ -157,4 +157,7 @@
     <!-- Whether device supports QTI Boost Framework -->
     <bool name="config_supportsBoostFramework">true</bool>
 
+    <!-- Default values for status bar DT2S gesture -->
+    <bool name="config_dt2sGestureAvailable">true</bool>
+    <bool name="config_dt2sGestureEnabledByDefault">true</bool>
 </resources>
