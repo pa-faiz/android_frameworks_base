@@ -10,4 +10,9 @@
     <!-- Content description indicating that tapping the element will allow deleting the screenshot [CHAR LIMIT=NONE] -->
     <string name="screenshot_delete_description">Delete screenshot</string>
 
+    <!-- Status bar -->
+    <string name="status_bar_icons_title">Status bar icons</string>
+
+    <!-- Name of the nfc status bar icon. -->
+    <string name="status_bar_nfc">NFC</string>
 </resources>
