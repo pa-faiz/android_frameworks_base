@@ -134,4 +134,7 @@
     <!-- Udfps animation package -->
     <java-symbol type="string" name="config_udfps_animation_customization_package" />
 
+    <!-- Power menu -->
+    <java-symbol type="array" name="config_restartActionsList" />
+
 </resources>

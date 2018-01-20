@@ -12112,6 +12112,12 @@ public final class Settings {
         public static final int VOLUME_HUSH_CYCLE = 3;
 
         /**
+         * Whether to include options in power menu for rebooting into recovery or bootloader
+         * @hide
+         */
+        public static final String ADVANCED_REBOOT = "advanced_reboot";
+
+        /**
          * The number of times (integer) the user has manually enabled battery saver.
          * @hide
          */
