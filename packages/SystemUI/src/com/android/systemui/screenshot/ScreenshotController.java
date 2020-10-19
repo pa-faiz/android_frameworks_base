@@ -133,6 +133,7 @@ public class ScreenshotController implements ScreenshotHandler {
      */
     public static class SavedImageData {
         public Uri uri;
+        public Notification.Action deleteAction;
         public List<Notification.Action> smartActions;
         public Notification.Action quickShareAction;
         public UserHandle owner;
@@ -144,6 +145,7 @@ public class ScreenshotController implements ScreenshotHandler {
          */
         public void reset() {
             uri = null;
+            deleteAction = null;
             smartActions = null;
             quickShareAction = null;
             subject = null;
@@ -191,6 +193,7 @@ public class ScreenshotController implements ScreenshotHandler {
     public static final String EXTRA_ACTION_INTENT_FILLIN =
             "android:screenshot_action_intent_fillin";
 
+    static final String SCREENSHOT_URI_ID = "android:screenshot_uri_id";
 
     // From WizardManagerHelper.java
     private static final String SETTINGS_SECURE_USER_SETUP_COMPLETE = "user_setup_complete";
