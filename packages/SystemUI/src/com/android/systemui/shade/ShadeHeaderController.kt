@@ -140,6 +140,8 @@ constructor(
     private val systemIconsHoverContainer: View =
         header.requireViewById(R.id.hover_system_icons_container)
 
+    private var sbPaddingLeft = 0
+    private var sbPaddingRight = 0
     private var roundedCorners = 0
     private var cutout: DisplayCutout? = null
     private var lastInsets: WindowInsets? = null
@@ -419,8 +421,8 @@ constructor(
         val cutout = insets.displayCutout.also { this.cutout = it }
 
         val sbInsets: Insets = insetsProvider.getStatusBarContentInsetsForCurrentRotation()
-        val cutoutLeft = sbInsets.left
-        val cutoutRight = sbInsets.right
+        val cutoutLeft = sbInsets.left + sbPaddingLeft
+        val cutoutRight = sbInsets.right + sbPaddingRight
         val hasCornerCutout: Boolean = insetsProvider.currentRotationHasCornerCutout()
         updateQQSPaddings()
         // Set these guides as the left/right limits for content that lives in the top row, using
@@ -554,6 +556,8 @@ constructor(
 
     private fun updateResources() {
         roundedCorners = resources.getDimensionPixelSize(R.dimen.rounded_corner_content_padding)
+        sbPaddingLeft = resources.getDimensionPixelSize(R.dimen.status_bar_padding_start)
+        sbPaddingRight = resources.getDimensionPixelSize(R.dimen.status_bar_padding_end)
         val padding = resources.getDimensionPixelSize(R.dimen.qs_panel_padding)
         header.setPadding(padding, header.paddingTop, padding, header.paddingBottom)
         updateQQSPaddings()
