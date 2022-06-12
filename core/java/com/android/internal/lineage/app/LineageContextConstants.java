@@ -42,4 +42,11 @@ public final class LineageContextConstants {
      */
     public static final String LINEAGE_HEALTH_INTERFACE = "lineagehealth";
 
+    /**
+     * Update power menu (GlobalActions)
+     *
+     * @hide
+     */
+    public static final String LINEAGE_GLOBAL_ACTIONS_SERVICE = "lineageglobalactions";
+
 }
