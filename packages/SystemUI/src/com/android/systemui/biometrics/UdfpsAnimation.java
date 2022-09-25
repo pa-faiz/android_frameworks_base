@@ -48,7 +48,6 @@ public class UdfpsAnimation extends ImageView {
     private static final boolean DEBUG = true;
     private static final String LOG_TAG = "UdfpsAnimations";
 
-    private boolean mShowing = false;
     private Context mContext;
     private int mAnimationSize;
     private int mAnimationOffset;
@@ -155,14 +154,13 @@ public class UdfpsAnimation extends ImageView {
         mAnimParams.y = props.getLocation().sensorLocationY - props.getLocation().sensorRadius
                 - (mAnimationSize / 2) + mAnimationOffset;
         // Update view if it's showing already.
-        if (mShowing) {
+        if (mIsKeyguard && isAnimationEnabled()) {
             showAnimation();
         }
     }
 
     public void show() {
-        if (!mShowing && mIsKeyguard && isAnimationEnabled()) {
-            mShowing = true;
+        if (mIsKeyguard && isAnimationEnabled()) {
             showAnimation();
         }
     }
@@ -183,8 +181,7 @@ public class UdfpsAnimation extends ImageView {
     }
 
     public void hide() {
-        if (mShowing) {
-            mShowing = false;
+        if (mIsKeyguard && isAnimationEnabled()) {
             if (recognizingAnim != null) {
                 clearAnimation();
                 recognizingAnim.stop();

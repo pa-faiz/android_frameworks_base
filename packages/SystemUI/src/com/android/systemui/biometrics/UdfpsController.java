@@ -1061,7 +1061,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
         return mSensorProps.sensorType == FingerprintSensorProperties.TYPE_UDFPS_OPTICAL;
     }
 
-    public boolean isFingerDown() {
+    public synchronized boolean isFingerDown() {
         return mOnFingerDown;
     }
 
@@ -1071,7 +1071,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
         mLatencyTracker.onActionEnd(LatencyTracker.ACTION_UDFPS_ILLUMINATE);
     }
 
-    private void onFingerDown(
+    private synchronized void onFingerDown(
             long requestId,
             int x,
             int y,
@@ -1090,7 +1090,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
                 false /* isAod */);
     }
 
-    private void onFingerDown(
+    private synchronized void onFingerDown(
             long requestId,
             int pointerId,
             float x,
@@ -1125,7 +1125,6 @@ public class UdfpsController implements DozeReceiver, Dumpable {
 
             mDeviceEntryFaceAuthInteractor.onUdfpsSensorTouched();
         }
-        mOnFingerDown = true;
         mFingerprintManager.onPointerDown(requestId, mSensorProps.sensorId, pointerId, x, y,
                 minor, major, orientation, time, gestureStart, isAod);
         Trace.endAsyncSection("UdfpsController.e2e.onPointerDown", 0);
@@ -1146,12 +1145,14 @@ public class UdfpsController implements DozeReceiver, Dumpable {
         for (Callback cb : mCallbacks) {
             cb.onFingerDown();
         }
-        if (mUdfpsAnimation != null) {
+        if (!mOnFingerDown && mUdfpsAnimation != null) {
             mUdfpsAnimation.show();
         }
+
+        mOnFingerDown = true;
     }
 
-    private void onFingerUp(long requestId, @NonNull View view) {
+    private synchronized void onFingerUp(long requestId, @NonNull View view) {
         onFingerUp(
                 requestId,
                 view,
@@ -1166,7 +1167,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
                 false /* isAod */);
     }
 
-    private void onFingerUp(
+    private synchronized void onFingerUp(
             long requestId,
             View view,
             int pointerId,
