@@ -18,6 +18,7 @@ package com.android.settingslib.wifi
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.icu.text.MessageFormat
 import android.net.wifi.ScanResult
@@ -439,6 +440,11 @@ open class WifiUtils {
                     return NO_INTERNET_WIFI_PIE[wifiLevel]
             }
 
+	    val showNetworkStandard: Boolean = Resources.getSystem().getBoolean(
+		    com.android.internal.R.bool.config_show_network_standard
+	    )
+
+	    if (!showNetworkStandard) return WIFI_PIE[wifiLevel]
             val result = when (standard) {
                     ScanResult.WIFI_STANDARD_11N -> WIFI_4_PIE[wifiLevel]
                     ScanResult.WIFI_STANDARD_11AC -> WIFI_5_PIE[wifiLevel]

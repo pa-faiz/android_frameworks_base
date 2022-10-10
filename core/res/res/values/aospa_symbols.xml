@@ -127,4 +127,8 @@
     <!-- Status bar DT2S gesture -->
     <java-symbol type="bool" name="config_dt2sGestureAvailable" />
     <java-symbol type="bool" name="config_dt2sGestureEnabledByDefault" />
+
+    <!-- Whether to show WiFi/Hotspot standard -->
+    <java-symbol type="bool" name="config_show_network_standard" />
+
 </resources>
