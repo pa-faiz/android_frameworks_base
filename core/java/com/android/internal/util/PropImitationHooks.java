@@ -74,7 +74,10 @@ public class PropImitationHooks {
         sIsGms = packageName.equals(PACKAGE_GMS) && processName.equals(PROCESS_GMS_UNSTABLE);
         sIsFinsky = packageName.equals(PACKAGE_FINSKY);
 
-        if (!sCertifiedFp.isEmpty() && (sIsGms || sIsFinsky)) {
+        if (sIsGms) {
+            dlog("Setting Pixel XL fingerprint for: " + packageName);
+            spoofBuildGms();
+        } else if (!sCertifiedFp.isEmpty() && sIsFinsky) {
             dlog("Setting certified fingerprint for: " + packageName);
             setPropValue("FINGERPRINT", sCertifiedFp);
         } else if (!sStockFp.isEmpty() && packageName.equals(PACKAGE_ARCORE)) {
@@ -97,6 +100,16 @@ public class PropImitationHooks {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             Log.e(TAG, "Failed to set prop " + key, e);
         }
+    }
+
+    private static void spoofBuildGms() {
+        // Alter model name and fingerprint to avoid hardware attestation enforcement
+        setPropValue("FINGERPRINT", "motorola/griffin_retcn/griffin:6.0.1/MCC24.246-37/42:user/release-keys");
+        setPropValue("PRODUCT", "griffin_retcn");
+        setPropValue("DEVICE", "griffin");
+        setPropValue("MANUFACTURER", "motorola");
+        setPropValue("BRAND", "motorola");
+        setPropValue("MODEL", "XT1650-05");
     }
 
     private static boolean isCallerSafetyNet() {
