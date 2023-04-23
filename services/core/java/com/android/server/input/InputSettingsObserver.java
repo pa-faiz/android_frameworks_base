@@ -104,7 +104,9 @@ class InputSettingsObserver extends ContentObserver {
                 Map.entry(Settings.System.getUriFor(Settings.System.POINTER_FILL_STYLE),
                         (reason) -> updatePointerFillStyleFromSettings()),
                 Map.entry(Settings.System.getUriFor(Settings.System.POINTER_SCALE),
-                        (reason) -> updatePointerScaleFromSettings()));
+                        (reason) -> updatePointerScaleFromSettings()),
+                Map.entry(Settings.System.getUriFor(Settings.System.PREVENT_POINTER_ACCELERATION),
+                        (reason) -> updatePreventPointerAcceleration()));
     }
 
     /**
@@ -289,5 +291,14 @@ class InputSettingsObserver extends ContentObserver {
                 Settings.System.POINTER_SCALE, DEFAULT_POINTER_SCALE,
                 UserHandle.USER_CURRENT);
         mService.setPointerScale(pointerScale);
+    }
+
+    private void updatePreventPointerAcceleration() {
+        int preventPointerAcceleration = Settings.System.getIntForUser(
+                mContext.getContentResolver(),
+                Settings.System.PREVENT_POINTER_ACCELERATION, 0,
+                UserHandle.USER_CURRENT);
+        preventPointerAcceleration = Math.min(Math.max(preventPointerAcceleration, 0), 3);
+        mNative.setPreventPointerAcceleration(preventPointerAcceleration);
     }
 }
