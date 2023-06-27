@@ -192,6 +192,7 @@ cc_defaults {
     cflags: [
         "-O3",
     ],
+    whole_program_vtables: true,
 }
 
 // ------------------------
