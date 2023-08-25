@@ -630,7 +630,7 @@ public class BatteryExternalStatsWorker implements BatteryStatsImpl.ExternalStat
 
                                 @Override
                                 public void onError(TelephonyManager.ModemActivityInfoException e) {
-                                    Slog.w(TAG, "error reading modem stats:" + e);
+                                    //Slog.w(TAG, "error reading modem stats:" + e);
                                     temp.complete(null);
                                 }
                             });
