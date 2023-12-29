@@ -144,4 +144,8 @@
     </string-array>
     <!-- Build fingerprint from stock ROM -->
     <string name="config_stockFingerprint" translatable="false"></string>
+
+    <!-- Whether to spoof GMS as Pixel Tablet -->
+    <bool name="config_spoofasTablet">false</bool>
+
 </resources>
