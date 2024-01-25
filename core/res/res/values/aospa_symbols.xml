@@ -131,4 +131,7 @@
     <!-- Whether to show WiFi/Hotspot standard -->
     <java-symbol type="bool" name="config_show_network_standard" />
 
+    <!-- Udfps animation package -->
+    <java-symbol type="string" name="config_udfps_animation_customization_package" />
+
 </resources>

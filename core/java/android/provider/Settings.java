@@ -13083,6 +13083,12 @@ public final class Settings {
                 "qs_tiles_toggleable_on_lock_screen";
 
         /**
+         * UDFPS animation style
+         * @hide
+         */
+        public static final String UDFPS_ANIM_STYLE = "udfps_anim_style";
+
+        /**
          * These entries are considered common between the personal and the managed profile,
          * since the managed profile doesn't get to change them.
          */
