@@ -177,6 +177,18 @@ interface MobileIconInteractor {
     val customizedCarrierName: StateFlow<String>
 
     val customizedNetworkName: StateFlow<NetworkNameModel>
+
+    /** True when VoLTE/VONR available */
+    val isMobileHd: StateFlow<Boolean>
+
+    /** See [MobileIconsInteractor.isMobileHdForceHidden]. */
+    val isMobileHdForceHidden: Flow<Boolean>
+
+    /** True when VoWifi available */
+    val isVoWifi: StateFlow<Boolean>
+
+    /** See [MobileIconsInteractor.isVoWifiForceHidden]. */
+    val isVoWifiForceHidden: Flow<Boolean>
 }
 
 /** Interactor for a single mobile connection. This connection _should_ have one subscription ID */
@@ -194,6 +206,8 @@ class MobileIconInteractorImpl(
     isDefaultConnectionFailed: StateFlow<Boolean>,
     override val isForceHidden: Flow<Boolean>,
     override val isRoamingForceHidden: Flow<Boolean>,
+    override val isMobileHdForceHidden: Flow<Boolean>,
+    override val isVoWifiForceHidden: Flow<Boolean>,
     connectionRepository: MobileConnectionRepository,
     override val alwaysUseRsrpLevelForLte: StateFlow<Boolean>,
     override val hideNoInternetState: StateFlow<Boolean>,
@@ -612,18 +626,29 @@ class MobileIconInteractorImpl(
             }
             .stateIn(scope, SharingStarted.WhileSubscribed(), 0)
 
+    private val showRoaming: StateFlow<Boolean> =
+        combine(
+                isRoaming,
+                isRoamingForceHidden
+        ) { roaming, roamingForceHidden ->
+            roaming && !roamingForceHidden
+        }
+        .stateIn(scope, SharingStarted.WhileSubscribed(), false)
+
     private val cellularIcon: Flow<SignalIconModel.Cellular> =
         combine(
             shownLevel,
             numberOfLevels,
             showExclamationMark,
             carrierNetworkChangeActive,
-        ) { shownLevel, numberOfLevels, showExclamationMark, carrierNetworkChange ->
+            showRoaming,
+        ) { shownLevel, numberOfLevels, showExclamationMark, carrierNetworkChange, showRoaming ->
             SignalIconModel.Cellular(
                 shownLevel,
                 numberOfLevels,
                 showExclamationMark,
                 carrierNetworkChange,
+                showRoaming,
             )
         }
 
@@ -656,6 +681,7 @@ class MobileIconInteractorImpl(
                 numberOfLevels.value,
                 showExclamationMark.value,
                 carrierNetworkChangeActive.value,
+                showRoaming.value,
             )
         isNonTerrestrial
             .flatMapLatest { ntn ->
@@ -673,4 +699,14 @@ class MobileIconInteractorImpl(
             )
             .stateIn(scope, SharingStarted.WhileSubscribed(), initial)
     }
+
+    override val isMobileHd: StateFlow<Boolean> =
+        connectionRepository.imsState
+            .map { it.isHdVoiceCapable() }
+            .stateIn(scope, SharingStarted.WhileSubscribed(), false)
+
+    override val isVoWifi: StateFlow<Boolean> =
+        connectionRepository.imsState
+            .map { it.isVoWifiAvailable() }
+            .stateIn(scope, SharingStarted.WhileSubscribed(), false)
 }

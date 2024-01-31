@@ -76,6 +76,8 @@ import com.android.systemui.flags.FeatureFlagsClassic
 import com.android.systemui.flags.Flags.ROAMING_INDICATOR_VIA_DISPLAY_INFO
 import com.android.systemui.log.table.TableLogBuffer
 import com.android.systemui.log.table.logDiffsForTable
+import com.android.systemui.statusbar.pipeline.ims.data.model.ImsStateModel
+import com.android.systemui.statusbar.pipeline.ims.data.repository.ImsRepository
 import com.android.systemui.statusbar.pipeline.mobile.data.MobileInputLogger
 import com.android.systemui.statusbar.pipeline.mobile.data.model.DataConnectionState.Disconnected
 import com.android.systemui.statusbar.pipeline.mobile.data.model.NetworkNameModel
@@ -146,6 +148,7 @@ class MobileConnectionRepositoryImpl(
     private val scope: CoroutineScope,
     private val fiveGServiceClient: FiveGServiceClient,
     slotIndexForSubId:  Flow<Int>? = null,
+    private val imsRepository: ImsRepository,
 ) : MobileConnectionRepository {
     init {
         if (telephonyManager.subscriptionId != subId) {
@@ -780,6 +783,8 @@ class MobileConnectionRepositoryImpl(
     /** Typical mobile connections aren't available during airplane mode. */
     override val isAllowedDuringAirplaneMode = MutableStateFlow(false).asStateFlow()
 
+    override val imsState: StateFlow<ImsStateModel> = imsRepository.imsState
+
     /**
      * Currently, a network with NET_CAPABILITY_PRIORITIZE_LATENCY is the only type of network that
      * we consider to be a "network slice". _PRIORITIZE_BANDWIDTH may be added in the future. Any of
@@ -840,6 +845,7 @@ class MobileConnectionRepositoryImpl(
             defaultNetworkName: NetworkNameModel,
             networkNameSeparator: String,
             slotIndexForSubId:  Flow<Int>? = null,
+            imsRepository: ImsRepository,
         ): MobileConnectionRepository {
             return MobileConnectionRepositoryImpl(
                 subId,
@@ -859,6 +865,7 @@ class MobileConnectionRepositoryImpl(
                 scope,
                 fiveGServiceClient,
                 slotIndexForSubId,
+                imsRepository,
             )
         }
     }

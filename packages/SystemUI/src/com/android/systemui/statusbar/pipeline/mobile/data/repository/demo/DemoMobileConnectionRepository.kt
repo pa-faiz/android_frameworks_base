@@ -28,6 +28,7 @@ import android.telephony.SubscriptionManager.INVALID_SUBSCRIPTION_ID
 import android.telephony.TelephonyManager
 import com.android.systemui.log.table.TableLogBuffer
 import com.android.systemui.log.table.logDiffsForTable
+import com.android.systemui.statusbar.pipeline.ims.data.model.ImsStateModel
 import com.android.systemui.statusbar.pipeline.mobile.data.model.DataConnectionState
 import com.android.systemui.statusbar.pipeline.mobile.data.model.NetworkNameModel
 import com.android.systemui.statusbar.pipeline.mobile.data.model.ResolvedNetworkType
@@ -249,6 +250,8 @@ class DemoMobileConnectionRepository(
     override val ciwlanAvailable = MutableStateFlow(false)
 
     override val isAllowedDuringAirplaneMode = MutableStateFlow(false)
+
+    override val imsState = MutableStateFlow(ImsStateModel())
 
     override val hasPrioritizedNetworkCapabilities = MutableStateFlow(false)
 
