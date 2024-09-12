@@ -2499,7 +2499,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             public void onReceive(Context context, Intent intent) {
                 showGlobalActionsInternal();
             }
-        }, filter);
+        }, filter, Context.RECEIVER_EXPORTED);
 
         mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
         mHapticFeedbackVibrationProvider =
