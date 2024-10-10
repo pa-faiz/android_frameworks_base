@@ -17,6 +17,8 @@
 
 package com.android.server.biometrics.sensors.face.sense;
 
+import static android.hardware.biometrics.BiometricFaceConstants.FACE_ACQUIRED_VENDOR;
+
 import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.content.Context;
@@ -92,7 +94,7 @@ public class FaceEnrollClient extends EnrollClient<ISenseService> {
     @Override
     public void onAcquired(int acquireInfo, int vendorCode) {
         final boolean shouldSend;
-        if (acquireInfo == FaceManager.FACE_ACQUIRED_VENDOR) {
+        if (acquireInfo == FACE_ACQUIRED_VENDOR) {
             shouldSend = !Utils.listContains(mEnrollIgnoreListVendor, vendorCode);
         } else {
             shouldSend = !Utils.listContains(mEnrollIgnoreList, acquireInfo);

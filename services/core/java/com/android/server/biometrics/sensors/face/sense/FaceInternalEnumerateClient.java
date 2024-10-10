@@ -19,6 +19,7 @@ package com.android.server.biometrics.sensors.face.sense;
 
 import android.annotation.NonNull;
 import android.content.Context;
+import android.hardware.biometrics.BiometricAuthenticator;
 import android.hardware.face.Face;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -54,5 +55,10 @@ class FaceInternalEnumerateClient extends InternalEnumerateClient<ISenseService>
             Slog.e(TAG, "Remote exception when requesting enumerate", e);
             mCallback.onClientFinished(this, false /* success */);
         }
+    }
+
+    @Override
+    public int getModality() {
+        return BiometricAuthenticator.TYPE_FACE;
     }
 }

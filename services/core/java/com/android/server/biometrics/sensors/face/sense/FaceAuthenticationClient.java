@@ -17,6 +17,11 @@
 
 package com.android.server.biometrics.sensors.face.sense;
 
+import static android.hardware.biometrics.BiometricFaceConstants.FACE_ACQUIRED_NOT_DETECTED;
+import static android.hardware.biometrics.BiometricFaceConstants.FACE_ACQUIRED_SENSOR_DIRTY;
+import static android.hardware.biometrics.BiometricFaceConstants.FACE_ACQUIRED_VENDOR;
+import static android.hardware.biometrics.BiometricFaceConstants.FACE_ACQUIRED_RECALIBRATE;
+
 import android.annotation.NonNull;
 import android.content.Context;
 import android.content.res.Resources;
@@ -136,8 +141,8 @@ class FaceAuthenticationClient
     public boolean wasUserDetected() {
         // Do not provide haptic feedback if the user was not detected, and an error (usually
         // ERROR_TIMEOUT) is received.
-        return mLastAcquire != FaceManager.FACE_ACQUIRED_NOT_DETECTED
-                && mLastAcquire != FaceManager.FACE_ACQUIRED_SENSOR_DIRTY;
+        return mLastAcquire != FACE_ACQUIRED_NOT_DETECTED
+                && mLastAcquire != FACE_ACQUIRED_SENSOR_DIRTY;
     }
 
     @Override
@@ -202,7 +207,7 @@ class FaceAuthenticationClient
     }
 
     private boolean shouldSend(int acquireInfo, int vendorCode) {
-        if (acquireInfo == FaceManager.FACE_ACQUIRED_VENDOR) {
+        if (acquireInfo == FACE_ACQUIRED_VENDOR) {
             return !Utils.listContains(getAcquireVendorIgnorelist(), vendorCode);
         } else {
             return !Utils.listContains(getAcquireIgnorelist(), acquireInfo);
@@ -213,7 +218,7 @@ class FaceAuthenticationClient
     public void onAcquired(int acquireInfo, int vendorCode) {
         mLastAcquire = acquireInfo;
 
-        if (acquireInfo == FaceManager.FACE_ACQUIRED_RECALIBRATE) {
+        if (acquireInfo == FACE_ACQUIRED_RECALIBRATE) {
             BiometricNotificationUtils.showReEnrollmentNotification(getContext());
         }
         @LockoutTracker.LockoutMode final int lockoutMode =
