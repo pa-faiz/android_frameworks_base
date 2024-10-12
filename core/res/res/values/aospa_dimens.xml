@@ -33,4 +33,8 @@
     <dimen name="net_traffic_single_text_size">14sp</dimen>
     <dimen name="net_traffic_multi_text_size">8sp</dimen>
 
+    <!-- Blur radius used by SystemUI -->
+    <dimen name="min_window_blur_radius">1px</dimen>
+    <dimen name="max_window_blur_radius">17.5dp</dimen>
+
 </resources>

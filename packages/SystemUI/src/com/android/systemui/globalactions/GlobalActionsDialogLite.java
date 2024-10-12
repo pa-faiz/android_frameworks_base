@@ -2905,7 +2905,7 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
                         | WindowManager.LayoutParams.FLAG_DIM_BEHIND);
                 // Set blur behind radius
                 int blurBehindRadius = mContext.getResources()
-                        .getDimensionPixelSize(com.android.systemui.res.R.dimen.max_window_blur_radius);
+                        .getDimensionPixelSize(com.android.internal.R.dimen.max_window_blur_radius);
                 window.getAttributes().setBlurBehindRadius(blurBehindRadius);
             }
         }
